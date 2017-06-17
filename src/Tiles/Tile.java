@@ -1,8 +1,21 @@
 package Tiles;
 
+import java.awt.image.BufferedImage;
+
 /**
- * Class to hold board tiles, some of which will be walls and some of which can be traversed by agents,
- * and may contain food
+ * Class to represent board tiles.
+ * Some will be walls, and some can be traversed by agents and may contain food
  */
-public class Tile {
+
+public abstract class Tile {
+
+    String image;
+    Position position;
+
+    public Tile(Position position, String image) {
+        this.position = position;
+        this.image = image;
+    }
+
+    public abstract boolean walkable();
 }
