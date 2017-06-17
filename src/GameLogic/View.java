@@ -1,3 +1,7 @@
+package GameLogic;
+
+import Agents.DoveAgent;
+import Agents.Hawk;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -15,9 +19,9 @@ import java.util.Random;
 /**
  * Created by Noosh on 03/03/17.
  */
-public class GUI extends Application {
+public class View extends Application {
 
-    // Game variables
+    // GameLogic.Game variables
     private static final int BOARD_SIZE = 20;
     private static final double WINDOW_WIDTH = 1000;
     private static final int TILE_SIZE = 30;
@@ -59,7 +63,7 @@ public class GUI extends Application {
                 blankFound = true;
         }
 
-        enviro.makeAgent(new Dove(spawnLocation));
+        enviro.makeAgent(new DoveAgent(spawnLocation));
         agents.getChildren().add(new Circle(x * TILE_SIZE + 10 + TILE_SIZE/2, y * TILE_SIZE + 10 +
                 TILE_SIZE/2, 10, Color.LIGHTBLUE));
         blankFound = false;
@@ -80,7 +84,7 @@ public class GUI extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
-        primaryStage.setTitle("HawkDove: A Game Theory Battleground");
+        primaryStage.setTitle("HawkDove: A GameLogic.Game Theory Battleground");
 
         root.getChildren().add(tiles);
         root.getChildren().add(agents);

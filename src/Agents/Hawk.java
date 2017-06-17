@@ -1,3 +1,5 @@
+package Agents;
+
 /**
  * Hawks are aggressive agents that always attack
  */

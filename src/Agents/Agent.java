@@ -1,10 +1,13 @@
+package Agents;
+
 import java.util.HashMap;
 import java.util.Map;
+
 
 /**
  * Abstract class for agents to navigate the environment
  */
-abstract class Agent {
+public abstract class Agent {
 
     // Vars for x and y coordinates, energy, and previously visited locations
     int x, y;
@@ -12,7 +15,7 @@ abstract class Agent {
     private int steps;
     Map<Location, Integer> visitedLocations = new HashMap<>();
 
-    Agent(Location spawnLocation) {
+    public Agent(Location spawnLocation) {
         this.x = spawnLocation.x;
         this.y = spawnLocation.y;
         this.energy = 3;
@@ -30,7 +33,7 @@ abstract class Agent {
 
     /**
      * Move agent to a new location
-     * @param newLocation new Location to move to
+     * @param newLocation new GameLogic.Location to move to
      */
     void move(Location newLocation) {
         x = newLocation.x;
