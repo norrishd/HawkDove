@@ -11,7 +11,7 @@ import java.util.Random;
  */
 public class FloorTile extends Tile {
 
-    boolean hasFood;
+    private boolean hasFood;
     double fertility;       // [0-1], indicates likelihood of food spawning here each turn
     ArrayList<Agent> agents;
 
@@ -35,6 +35,11 @@ public class FloorTile extends Tile {
     @Override
     public boolean walkable() {
         return true;
+    }
+
+    // check if Tile has food
+    public boolean hasFood() {
+        return hasFood;
     }
 
     public void growFood() {
