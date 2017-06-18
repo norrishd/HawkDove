@@ -90,14 +90,14 @@ public class GridWorld extends WorldSettings {
     // Add an agent to a specific tile on the map
     public void addAgent(Agent newVisitor) throws Exception {
         Position spawnLocation = newVisitor.position;
-        if (spawnLocation.x_pos < 0 || spawnLocation.x_pos > WORLD_TILE_WIDTH - 1 ||
+        if (spawnLocation.x < 0 || spawnLocation.x > WORLD_TILE_WIDTH - 1 ||
                 spawnLocation.y_pos < 0 || spawnLocation.y_pos > WORLD_TILE_HEIGHT - 1)
             throw new IndexOutOfBoundsException("That's outside the world!");
-        else if (tiles[spawnLocation.x_pos][spawnLocation.y_pos] == null)
+        else if (tiles[spawnLocation.x][spawnLocation.y_pos] == null)
             throw new NoSuchElementException("World tiles haven't been initiated yet");
-        else if (!tiles[spawnLocation.x_pos][spawnLocation.y_pos].walkable())
+        else if (!tiles[spawnLocation.x][spawnLocation.y_pos].walkable())
             throw new IllegalArgumentException("Cannot spawn an Agent on this kind of tile");
-        tiles[spawnLocation.x_pos][spawnLocation.y_pos].addAgent(newVisitor);
+        tiles[spawnLocation.x][spawnLocation.y_pos].addAgent(newVisitor);
     }
 
     // Get random walkable tile
@@ -123,10 +123,5 @@ public class GridWorld extends WorldSettings {
             agent.checkForAdjacentFood(tiles);
             agent.move();
         }
-    }
-
-    // TODO implement
-    void updateView() {
-        System.out.println("Updating view");
     }
 }

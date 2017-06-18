@@ -6,7 +6,7 @@ package GameLogic;
 public class WorldSettings {
 
     // Default Game logic variables
-    public int STARTING_FOOD = 3;
+    public static int STARTING_FOOD = 3;
     public int STEPS_TO_LOSE_FOOD = 10;
     public int FOOD_VALUE = 3;               // how much value each food item is worth
     public double FOOD_GROWTH_RATE = 1.0;    // food will spawn once per turn

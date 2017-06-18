@@ -5,11 +5,11 @@ package GameLogic;
  */
 public class Position {
 
-    int x_pos;
-    int y_pos;
+    public int x;
+    public int y;
 
-    public Position(int x_pos, int y_pos) {
-        this.x_pos = x_pos;
-        this.y_pos = y_pos;
+    public Position(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 }

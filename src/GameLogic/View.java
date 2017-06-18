@@ -6,9 +6,6 @@ import Agents.HawkAgent;
 import Tiles.FloorTile;
 import Tiles.Tile;
 import Tiles.TilePattern;
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -16,7 +13,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -51,11 +47,11 @@ public class View extends Application {
 
         for (Agent agent : currentAgents) {
             if (agent instanceof DoveAgent)
-                agents.getChildren().add(new Circle(agent.position.x_pos * tileSize + 10 + tileSize / 2,
+                agents.getChildren().add(new Circle(agent.position.x * tileSize + 10 + tileSize / 2,
                         agent.position.y_pos * tileSize + 10 +
                                 tileSize / 2, 10, Color.LIGHTBLUE));
             else if (agent instanceof HawkAgent)
-                agents.getChildren().add(new Circle(agent.position.x_pos * tileSize + 10 + tileSize / 2,
+                agents.getChildren().add(new Circle(agent.position.x * tileSize + 10 + tileSize / 2,
                         agent.position.y_pos * tileSize + 10 +
                                 tileSize / 2, 10, Color.PALEVIOLETRED));
         }
@@ -84,7 +80,7 @@ public class View extends Application {
 
         primaryStage.setScene(scene);
 
-        // Timeline that makes all the action happen!
+        /*// Timeline that makes all the action happen!
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(100), handler -> {
 
 
@@ -93,7 +89,7 @@ public class View extends Application {
                 }));
 
         timeline.setCycleCount(Animation.INDEFINITE);
-        timeline.play();
+        timeline.play();*/
 
         primaryStage.show();
     }

@@ -1,11 +1,13 @@
 package Agents;
 
 import GameLogic.Position;
-import GameLogic.WorldSettings;
+import GameLogic.SearchNode;
 import Tiles.Tile;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Random;
 
 /**
  * Abstract class for agents which navigate navigate the environment
@@ -19,29 +21,65 @@ public abstract class Agent {
     private int steps_taken;            // way to keep track how long an agent has survived
     private int children_spawned;
 
-    private HashSet<Position> adjacentFood;
+    private ArrayList<Position> adjacentFood;
     private Position last_pos = null;   // previous position agent was at. Prefers spawning here, and not re-visiting
-    private Position goal;              // identified food, currently aiming to collect
+    private SearchNode goal;              // identified food, currently aiming to collect
     private HashMap<Agent, ArrayList<Boolean>> pastEncounters;      // remember outcomes of past encounters with agents
+    Random r = new Random();
 
-    public Agent(Position spawnLocation, String name) {
+    public Agent(Position spawnLocation, int startingFood, String name) {
         this.position = spawnLocation;
-        this.food = WorldSettings.STARTING_FOOD;
+        this.food = startingFood;
         this.steps_taken = 0;
         this.children_spawned = 0;
         this.name = name;
         this.pastEncounters = new HashMap<>();
-        this.adjacentFood = new HashSet<>();
+        this.adjacentFood = new ArrayList<>();
     }
 
-    // TODO implement. agent should choose randomly if multiple adjacent tiles have food
-    public abstract void checkForAdjacentFood(Tile[][] tiles);
+    // Identifies any adjacent tiles with food
+    public void checkForAdjacentFood(Tile[][] tiles) {
+        ArrayList<Position> updatedAdjFood = new ArrayList<>();
+        Position[] adjacents = {new Position(position.x + 1, position.y),
+                new Position(position.x - 1, position.y),
+                new Position(position.x, position.y - 1),
+                new Position(position.x, position.y + 1)};
+
+        for (Position pos : adjacents) {
+            if (tiles[pos.x][pos.y].hasFood())
+                updatedAdjFood.add(pos);
+        }
+        adjacentFood = updatedAdjFood;
+
+        // If any adjacent square has food, move to one randomly
+        if (adjacentFood.size() > 0) {
+            int choice = r.nextInt(adjacentFood.size());
+            move(adjacentFood.get(choice));
+            // if no adjacent food, check if there's still food at the goal
+        } else if (goal != null && goal.tile.hasFood()) {
+            // Find next Tile to walk to
+            SearchNode node = goal;
+            while (Math.abs(position.x - node.tile.position.x) + Math.abs(position.y - node.tile.position.y) != 1) {
+                node = node.parent;
+            }
+            move(node.tile.position);
+            // depth-limited DFS to find nearby food
+        } else {
+            SearchNode node = new SearchNode(tiles[position.x][position.y], null, 0);
+            HashMap<Tile, SearchNode> visited = new HashMap<>();
+
+
+
+        }
+    }
 
     // TODO implement. If no food in adjacent tiles, use depth-limited BFS to check for nearby food
     abstract Position scanForFood();
 
-    // TODO implement
-    public abstract void move();
+    // If an adjacent
+    public void move(Position adjacentTile) {
+
+    }
 
     // If finding food uncontested or gaining some from a game
     public void gain_food(int v) {
