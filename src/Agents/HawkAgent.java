@@ -10,7 +10,6 @@ public class HawkAgent extends Agent {
     public HawkAgent(Position spawnLocation, String name) {
 
         super(spawnLocation, name);
-        this.strategy = Strategy.HAWK;
     }
 
 }

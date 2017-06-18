@@ -10,7 +10,6 @@ public class DoveAgent extends Agent {
     public DoveAgent(Position spawnLocation, String name) {
 
         super(spawnLocation, name);
-        this.strategy = Strategy.DOVE;
     }
 
 }

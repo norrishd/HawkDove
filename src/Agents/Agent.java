@@ -12,7 +12,6 @@ import java.util.Set;
 public abstract class Agent {
 
     // Strategy, starting position etc
-    protected Strategy strategy;
     public String name;
     Position position;
     private int food;
