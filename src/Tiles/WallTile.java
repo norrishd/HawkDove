@@ -1,5 +1,7 @@
 package Tiles;
 
+import GameLogic.Position;
+
 /**
  * A wall tile. Cannot be passed through and never contains food
  */

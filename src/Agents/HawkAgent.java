@@ -1,11 +1,11 @@
 package Agents;
 
-import Tiles.Position;
+import GameLogic.Position;
 
 /**
  * Hawks are aggressive agents that always attack
  */
-public class HawkAgent extends Agent {
+public abstract class HawkAgent extends Agent {
 
     public HawkAgent(Position spawnLocation, String name) {
 

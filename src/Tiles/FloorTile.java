@@ -1,7 +1,7 @@
 package Tiles;
 
 import Agents.Agent;
-
+import GameLogic.Position;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Random;

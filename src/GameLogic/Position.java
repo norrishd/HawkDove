@@ -1,4 +1,4 @@
-package Tiles;
+package GameLogic;
 
 /**
  * Store the (x, y) coordinates for a tile or agent

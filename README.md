@@ -44,9 +44,16 @@ breadth-first search to "look around" for food. If nothing nearby, will choose a
 * food spawn rate = 1 per turn
 * Depth-limited breadth-first search limit = 3
 
+## Development tracking - features implemented
+1. 
+
 ## Features to be implemented
+* Food spawns
+* Agents navigate towards food
 * User can control an agent
 * User can adjust:
   * number of steps to lose 1 food  
 * food can have variable values?
+* multiple PNGs for floor/wall tiles so map looks nice 
+ 
  

@@ -1,7 +1,8 @@
 package Agents;
 
-import Tiles.Position;
-import GameLogic.Model;
+import GameLogic.Position;
+import GameLogic.WorldSettings;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
@@ -24,7 +25,7 @@ public abstract class Agent {
 
     public Agent(Position spawnLocation, String name) {
         this.position = spawnLocation;
-        this.food = Model.STARTING_FOOD;
+        this.food = WorldSettings.STARTING_FOOD;
         this.steps_taken = 0;
         this.children_spawned = 0;
         this.name = name;
