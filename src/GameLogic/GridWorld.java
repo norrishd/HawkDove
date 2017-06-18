@@ -16,20 +16,18 @@ public class GridWorld extends WorldSettings {
 
     Tile[][] tiles;             // store all board pieces
     ArrayList<Agent> agents;    // store all agents in play
-    View gui;                   // The View component of the GridWorld-View-Controller
-    Random r = new Random();
+    private Random r = new Random();
 
-    public GridWorld() {
+    GridWorld() {
         super();
         this.tiles = new Tile[WORLD_TILE_HEIGHT][WORLD_TILE_WIDTH];     // allocate memory for all needed tiles
-        this.gui = new View();                                          // gui to display simulation logic
     }
 
     /**
      * Populate the matrix of Tiles for this GridWOrld
      * @param pattern a TilePattern enum, indicating what the world will look like
      */
-    public void generateWorld(TilePattern pattern) {
+    void generateWorld(TilePattern pattern) {
 
         for (int x = 0; x < WORLD_TILE_WIDTH; x++) {
             for (int y = 0; y < WORLD_TILE_HEIGHT; y++) {
@@ -88,20 +86,20 @@ public class GridWorld extends WorldSettings {
     }
 
     // Add an agent to a specific tile on the map
-    public void addAgent(Agent newVisitor) throws Exception {
+    void addAgent(Agent newVisitor) throws Exception {
         Position spawnLocation = newVisitor.position;
         if (spawnLocation.x < 0 || spawnLocation.x > WORLD_TILE_WIDTH - 1 ||
-                spawnLocation.y_pos < 0 || spawnLocation.y_pos > WORLD_TILE_HEIGHT - 1)
+                spawnLocation.y < 0 || spawnLocation.y > WORLD_TILE_HEIGHT - 1)
             throw new IndexOutOfBoundsException("That's outside the world!");
-        else if (tiles[spawnLocation.x][spawnLocation.y_pos] == null)
+        else if (tiles[spawnLocation.x][spawnLocation.y] == null)
             throw new NoSuchElementException("World tiles haven't been initiated yet");
-        else if (!tiles[spawnLocation.x][spawnLocation.y_pos].walkable())
+        else if (!tiles[spawnLocation.x][spawnLocation.y].walkable())
             throw new IllegalArgumentException("Cannot spawn an Agent on this kind of tile");
-        tiles[spawnLocation.x][spawnLocation.y_pos].addAgent(newVisitor);
+        tiles[spawnLocation.x][spawnLocation.y].addAgent(newVisitor);
     }
 
     // Get random walkable tile
-    public Position getWalkableTile() {
+    Position getWalkableTile() {
         if (tiles.length == 0)
             throw new NoSuchElementException("World tiles haven't been initiated yet.");
 
@@ -120,7 +118,7 @@ public class GridWorld extends WorldSettings {
     // User pressed button for next turn
     void nextTurn() {
         for (Agent agent : agents) {
-            agent.checkForAdjacentFood(tiles);
+            agent.checkForAdjacentFood(tiles, DFSlimit);
             agent.move();
         }
     }
