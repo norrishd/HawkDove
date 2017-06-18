@@ -1,15 +1,16 @@
 package Agents;
 
+import Tiles.Position;
+
 /**
- * Doves are peaceful agents that never attack no matter what
+ * Doves are peaceful agents that never attack and use a pure Dove strategy
  */
 public class DoveAgent extends Agent {
 
-    public DoveAgent(Location spawnLocation) {
-        super(spawnLocation);
+    public DoveAgent(Position spawnLocation, String name) {
+
+        super(spawnLocation, name);
+        this.strategy = Strategy.DOVE;
     }
 
-    public Strategy strategy() {
-        return Strategy.DOVE;
-    }
 }

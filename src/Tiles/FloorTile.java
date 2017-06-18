@@ -7,15 +7,15 @@ import java.util.NoSuchElementException;
 import java.util.Random;
 
 /**
- * A walkable Tiles. Agents can traverse these, encounter other agents and possibly find food
+ * A walkable Tiles. Agents can traverse, encounter other agents and possibly find food
  */
 public class FloorTile extends Tile {
 
     private boolean hasFood;
-    double fertility;       // [0-1], indicates likelihood of food spawning here each turn
+    double fertility;           // [0-1], indicates likelihood of food spawning here if not picking tiles randomly
     ArrayList<Agent> agents;
 
-    // Default constructor if no value is provided for the fertility. One will be generated uniform randomly
+    // Default constructor if no value is provided for the fertility - will be generated uniform randomly
     public FloorTile(Position position, String image) {
         super(position, image);
         this.hasFood = false;
@@ -37,7 +37,6 @@ public class FloorTile extends Tile {
         return true;
     }
 
-    // check if Tile has food
     public boolean hasFood() {
         return hasFood;
     }
@@ -50,6 +49,7 @@ public class FloorTile extends Tile {
         this.hasFood = false;
     }
 
+    // Add an agent to this tile
     public void agentArrives(Agent agent) {
         this.agents.add(agent);
     }

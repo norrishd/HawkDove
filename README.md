@@ -1,32 +1,52 @@
 ************************************
-HawkDove: A Game Theory Battleground
+# HawkDove: A Game Theory Battleground
 ************************************
 David Norrish, March-June 2017
 
 HawkDove models a simple grid world in which herbivorous creatures, each implementing a specific game theory strategy,
 explore in search of food. When two creatures encounter each other, they play a game to decide payoffs.
+HawkDove also includes an evolutionary component, where the balance of strategies in play will shift over time.
 
-## The rules
+## Overview
 The rules are simple:
 
-* A grid environment is generated and populated with a number of agents. This can be controlled or randomised.
-* Agents explore the environment looking for food. They lose food over time as they navigate the environment
+* A grid environment is generated and populated with a number of agents
+* Agents explore the environment looking for food. They lose food as they move
 * If an agent gathers enough food, it can spawn a child implementing the same game theory strategy
+* If an agent runs out of food, it dies
+* If two agents try to claim a food resource at the same time, they engage in a game to decide the outcome
 
-* If two agents encounter each other, they engage in a game.
-* Agents may play either 'Hawk' (aggressive) or 'Dove' (peaceful).
-* The outcome will depend on the strategy both agents play, the cost (c), and the value of the resource (v)
-* As per standard evolutionary game theory, c > v > 0
-* Hawk-hawk games can either randomly pick a winner, with one agent getting v and the other getting c,
-  or the outcome can be averaged. In the latter case the payoff matrix will be:
+## Playing games
+* Agents may play either 'Hawk' (aggressive) or 'Dove' (peaceful)
+* The outcome will depend on the strategy each agents plays, the cost (c) of losing a fight, and the value of the food (v)
+* According to standard evolutionary game theory, it should be the case that c > v > 0
+* The payout matrix:
 
- | Hawk | Dove
- -------------
- Hawk | (v-c)/2, (v-c)/2 | v, 0
- Dove | (0, v) | v/2, v/2
- 
- ## Features to be implemented
- * User can control an agent
- * User can adjust:
-   * 
+|      |  Hawk            | Dove     
+|:----:|:----------------:|:--------:
+| Hawk | (v-c)/2, (v-c)/2 | v, 0     
+| Dove | (0, v)           | v/2, v/2 
+
+Alternatively, in the case of Hawk-Hawk games, randomisation can be used to assign one agent v and the other agent c
+
+## Technical details
+* Agents navigate by checking whether any adjacent square has food. If so, move there. If not, use a depth-limited 
+breadth-first search to "look around" for food. If nothing nearby, will choose a move randomly
+(including staying put)  
+
+## Default values
+* starting food per agent = 3
+* steps to lose 1 food = 5
+* value of a food resource = 3 (or should have various values?)
+* cost of losing a game = 5
+* threshold to spawn = 10
+* food given to offspring = 5
+* food spawn rate = 1 per turn
+* Depth-limited breadth-first search limit = 3
+
+## Features to be implemented
+* User can control an agent
+* User can adjust:
+  * number of steps to lose 1 food  
+* food can have variable values?
  

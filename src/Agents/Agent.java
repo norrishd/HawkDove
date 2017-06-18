@@ -1,55 +1,67 @@
 package Agents;
 
+import Tiles.Position;
+import GameLogic.Model;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
-
+import java.util.Set;
 
 /**
- * Abstract class for agents to navigate the environment
+ * Abstract class for agents which navigate navigate the environment
  */
 public abstract class Agent {
 
-    // Vars for x and y coordinates, energy, and previously visited locations
-    int x, y;
-    int energy;
-    private int steps;
-    Map<Location, Integer> visitedLocations = new HashMap<>();
+    // Strategy, starting position etc
+    protected Strategy strategy;
+    public String name;
+    Position position;
+    private int food;
+    private int steps_taken;            // way to keep track how long an agent has survived
+    private int children_spawned;
 
-    public Agent(Location spawnLocation) {
-        this.x = spawnLocation.x;
-        this.y = spawnLocation.y;
-        this.energy = 3;
+    private Position last_pos = null;   // previous position agent was at. Prefers spawning here, and not re-visiting
+    private Position goal;              // identified food, currently aiming to collect
+    private HashMap<Agent, ArrayList<Boolean>> pastEncounters;      // remember outcomes of past encounters with agents
+
+    public Agent(Position spawnLocation, String name) {
+        this.position = spawnLocation;
+        this.food = Model.STARTING_FOOD;
+        this.steps_taken = 0;
+        this.children_spawned = 0;
+        this.name = name;
+        this.pastEncounters = new HashMap<>();
     }
 
+    // TODO implement. agent should choose randomly if multiple adjacent tiles have food
+    abstract Set<Position> checkForAdjacentFood();
 
+    // TODO implement. If no food in adjacent tiles, use depth-limited BFS to check for nearby food
+    abstract Position scanForFood();
+
+    // TODO implement
+    abstract void move(Position adjacentTile);
+
+    // If finding food uncontested or gaining some from a game
+    public void gain_food(int v) {
+        this.food += v;
+    }
+
+    // Lose food either from walking, spawning or losing a game when playing Hawk
+    public void lose_food(int v) {
+        this.food -= v;
+    }
 
     /**
-     * Add or remove energy from agent
-     * @param deltaEnergy amount of energy to add or subtract
+     * Abstract method that must be implemented to play a game. Agent received information about the opposing agent
+     * @param opposingAgent
+     * @return
      */
-    private void changeEnergy(int deltaEnergy) {
-        energy += deltaEnergy;
-    }
+    public abstract Strategy playGame(Agent opposingAgent);
 
-    /**
-     * Move agent to a new location
-     * @param newLocation new GameLogic.Location to move to
-     */
-    void move(Location newLocation) {
-        x = newLocation.x;
-        y = newLocation.y;
-        steps++;
-        if (steps >= 100) {
-            steps = 0;
-            changeEnergy(-1);
-        }
+    // TODO implement
+    abstract Agent die();
 
-        // Increment time-since-visited for all past visited Locations
-        for (Location location : visitedLocations.keySet()) {
-            int newVal = visitedLocations.get(location) + 1;
-            visitedLocations.put(location, newVal);
-        }
-        // Update newly visited location
-        visitedLocations.put(newLocation, 0);
-    }
+    // TODO implement
+    abstract Agent spawnChild(Position spawnLocation, String name);
+
 }

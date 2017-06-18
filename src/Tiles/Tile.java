@@ -1,7 +1,5 @@
 package Tiles;
 
-import java.awt.image.BufferedImage;
-
 /**
  * Class to represent board tiles.
  * Some will be walls, and some can be traversed by agents and may contain food

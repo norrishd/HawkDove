@@ -1,7 +1,7 @@
 package Tiles;
 
 /**
- * Store the (x, y_pos) coordinates for a tile or agent
+ * Store the (x, y) coordinates for a tile or agent
  */
 public class Position {
 
@@ -12,5 +12,4 @@ public class Position {
         this.x_pos = x_pos;
         this.y_pos = y_pos;
     }
-
 }
