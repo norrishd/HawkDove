@@ -2,10 +2,10 @@ package Agents;
 
 import GameLogic.Position;
 import GameLogic.WorldSettings;
-
+import Tiles.Tile;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Set;
+import java.util.HashSet;
 
 /**
  * Abstract class for agents which navigate navigate the environment
@@ -14,11 +14,12 @@ public abstract class Agent {
 
     // Strategy, starting position etc
     public String name;
-    Position position;
+    public Position position;
     private int food;
     private int steps_taken;            // way to keep track how long an agent has survived
     private int children_spawned;
 
+    private HashSet<Position> adjacentFood;
     private Position last_pos = null;   // previous position agent was at. Prefers spawning here, and not re-visiting
     private Position goal;              // identified food, currently aiming to collect
     private HashMap<Agent, ArrayList<Boolean>> pastEncounters;      // remember outcomes of past encounters with agents
@@ -30,16 +31,17 @@ public abstract class Agent {
         this.children_spawned = 0;
         this.name = name;
         this.pastEncounters = new HashMap<>();
+        this.adjacentFood = new HashSet<>();
     }
 
     // TODO implement. agent should choose randomly if multiple adjacent tiles have food
-    abstract Set<Position> checkForAdjacentFood();
+    public abstract void checkForAdjacentFood(Tile[][] tiles);
 
     // TODO implement. If no food in adjacent tiles, use depth-limited BFS to check for nearby food
     abstract Position scanForFood();
 
     // TODO implement
-    abstract void move(Position adjacentTile);
+    public abstract void move();
 
     // If finding food uncontested or gaining some from a game
     public void gain_food(int v) {

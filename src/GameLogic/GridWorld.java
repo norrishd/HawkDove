@@ -5,8 +5,8 @@ import Tiles.FloorTile;
 import Tiles.Tile;
 import Tiles.TilePattern;
 import Tiles.WallTile;
-
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.Random;
 
 /**
@@ -16,16 +16,20 @@ public class GridWorld extends WorldSettings {
 
     Tile[][] tiles;             // store all board pieces
     ArrayList<Agent> agents;    // store all agents in play
+    View gui;                   // The View component of the GridWorld-View-Controller
+    Random r = new Random();
 
     public GridWorld() {
         super();
-        this.tiles = new Tile[WORLD_TILE_HEIGHT][WORLD_TILE_WIDTH];      // allocate memory for all needed tiles
+        this.tiles = new Tile[WORLD_TILE_HEIGHT][WORLD_TILE_WIDTH];     // allocate memory for all needed tiles
+        this.gui = new View();                                          // gui to display simulation logic
     }
 
-
+    /**
+     * Populate the matrix of Tiles for this GridWOrld
+     * @param pattern a TilePattern enum, indicating what the world will look like
+     */
     public void generateWorld(TilePattern pattern) {
-
-        Random r = new Random();
 
         for (int x = 0; x < WORLD_TILE_WIDTH; x++) {
             for (int y = 0; y < WORLD_TILE_HEIGHT; y++) {
@@ -73,9 +77,56 @@ public class GridWorld extends WorldSettings {
                                 }
                             }
                             break;
+
+                            default:
+                                tiles[x][y] = new FloorTile(new Position(x, y), "Floor1.png");
+                                break;
                     }
                 }
             }
         }
+    }
+
+    // Add an agent to a specific tile on the map
+    public void addAgent(Agent newVisitor) throws Exception {
+        Position spawnLocation = newVisitor.position;
+        if (spawnLocation.x_pos < 0 || spawnLocation.x_pos > WORLD_TILE_WIDTH - 1 ||
+                spawnLocation.y_pos < 0 || spawnLocation.y_pos > WORLD_TILE_HEIGHT - 1)
+            throw new IndexOutOfBoundsException("That's outside the world!");
+        else if (tiles[spawnLocation.x_pos][spawnLocation.y_pos] == null)
+            throw new NoSuchElementException("World tiles haven't been initiated yet");
+        else if (!tiles[spawnLocation.x_pos][spawnLocation.y_pos].walkable())
+            throw new IllegalArgumentException("Cannot spawn an Agent on this kind of tile");
+        tiles[spawnLocation.x_pos][spawnLocation.y_pos].addAgent(newVisitor);
+    }
+
+    // Get random walkable tile
+    public Position getWalkableTile() {
+        if (tiles.length == 0)
+            throw new NoSuchElementException("World tiles haven't been initiated yet.");
+
+        int x = r.nextInt(WORLD_TILE_WIDTH);
+        int y = r.nextInt(WORLD_TILE_HEIGHT);
+
+        // DANGER! Infinite loop!
+        while (!tiles[x][y].walkable()) {
+            x = r.nextInt(WORLD_TILE_WIDTH);
+            y = r.nextInt(WORLD_TILE_HEIGHT);
+        }
+
+        return new Position(x, y);
+    }
+
+    // User pressed button for next turn
+    void nextTurn() {
+        for (Agent agent : agents) {
+            agent.checkForAdjacentFood(tiles);
+            agent.move();
+        }
+    }
+
+    // TODO implement
+    void updateView() {
+        System.out.println("Updating view");
     }
 }

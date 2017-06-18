@@ -13,13 +13,11 @@ public class FloorTile extends Tile {
 
     private boolean hasFood;
     double fertility;           // [0-1], indicates likelihood of food spawning here if not picking tiles randomly
-    ArrayList<Agent> agents;
 
     // Default constructor if no value is provided for the fertility - will be generated uniform randomly
     public FloorTile(Position position, String image) {
         super(position, image);
         this.hasFood = false;
-        this.agents = new ArrayList<>();
         Random r = new Random();        // Generate a fertility value using uniform random distribution
         fertility = r.nextDouble();
     }
@@ -28,7 +26,6 @@ public class FloorTile extends Tile {
     public FloorTile(Position position, String image, double fertility) {
         super(position, image);
         this.hasFood = false;
-        this.agents = new ArrayList<>();
         this.fertility = fertility;
     }
 
@@ -49,13 +46,8 @@ public class FloorTile extends Tile {
         this.hasFood = false;
     }
 
-    // Add an agent to this tile
-    public void agentArrives(Agent agent) {
-        this.agents.add(agent);
-    }
-
     // Remove an agent from the tile (if they move away or die)
-    public void agentLeaves(Agent agent) throws Exception {
+    public void removeAgent(Agent agent) throws Exception {
         if (this.agents.contains(agent))
             this.agents.remove(agent);
         else
