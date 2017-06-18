@@ -13,7 +13,7 @@ import java.util.*;
 public abstract class Agent {
 
     // Strategy, starting position etc
-    public String name;
+    String name;
     public Position position;
     private Position last_pos = null;   // previous position agent was at. Prefers spawning here, and not re-visiting
     private Position next_pos = null;
@@ -135,7 +135,7 @@ public abstract class Agent {
     }
 
     // Receive location to spawn a child if there is a free adjacent tile
-    Position spawnChild(Tile[][] tiles) {
+    Agent getChildSpawnLocation(Tile[][] tiles) {
 
         Position spawnPos = null;
 
@@ -155,6 +155,9 @@ public abstract class Agent {
         if (spawnPos == null)
             return null;
         else
-            return spawnPos;
+            return spawnChild(spawnPos);
     }
+
+    // Spawn a child of same type as parent
+    abstract Agent spawnChild(Position spawnPos);
 }

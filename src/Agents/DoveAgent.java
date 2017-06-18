@@ -12,4 +12,8 @@ public class DoveAgent extends Agent {
         super(spawnLocation, name);
     }
 
+    @Override
+    Agent spawnChild(Position spawnPos) {
+        return new DoveAgent(spawnPos, this.name + "_x");
+    }
 }
