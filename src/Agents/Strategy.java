@@ -1,8 +1,8 @@
 package Agents;
 
 /**
- * Created by Noosh on 04/03/17.
+ * Enumeration of strategies available to agents. Dove indicates
  */
 public enum Strategy {
-    DOVE, HAWK;
+    DOVE, HAWK
 }

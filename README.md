@@ -1,22 +1,32 @@
-*********************************************
-*** HawkDove: A GameLogic.Game Theory Battleground ***
-*********************************************
-Created March 2017
+************************************
+HawkDove: A Game Theory Battleground
+************************************
+David Norrish, March-June 2017
 
- The rules are easy:
+HawkDove models a simple grid world in which herbivorous creatures, each implementing a specific game theory strategy,
+explore in search of food. When two creatures encounter each other, they play a game to decide payoffs.
 
-* A square grid environment is generated and populated with a number of agents.
-* Agents explore the environment looking for food to gain energy.
-* Every 100 steps, an agent loses 1 energy.
-* If an agent gathers 10+ energy it splits in 2, with each child having 3 energy.
+## The rules
+The rules are simple:
+
+* A grid environment is generated and populated with a number of agents. This can be controlled or randomised.
+* Agents explore the environment looking for food. They lose food over time as they navigate the environment
+* If an agent gathers enough food, it can spawn a child implementing the same game theory strategy
 
 * If two agents encounter each other, they engage in a game.
-* Agents may play either Agents.Hawk (aggressive) or Agents.DoveAgent (peaceful). Different types of agents have different strategies to
-  decide what they will do.
+* Agents may play either 'Hawk' (aggressive) or 'Dove' (peaceful).
+* The outcome will depend on the strategy both agents play, the cost (c), and the value of the resource (v)
+* As per standard evolutionary game theory, c > v > 0
+* Hawk-hawk games can either randomly pick a winner, with one agent getting v and the other getting c,
+  or the outcome can be averaged. In the latter case the payoff matrix will be:
 
-* Two agents playing Agents.DoveAgent will ignore each other.
-* A Agents.Hawk will steal one energy from a Agents.DoveAgent.
-* Two Hawks with battle, with the outcome decided by chance.
-* The winner will steal 2 energy. The loser, being seriously injured in the fight, will lose 4 energy.
-
-* Agents die if their energy levels fall to 0.
+ | Hawk | Dove
+ -------------
+ Hawk | (v-c)/2, (v-c)/2 | v, 0
+ Dove | (0, v) | v/2, v/2
+ 
+ ## Features to be implemented
+ * User can control an agent
+ * User can adjust:
+   * 
+ 

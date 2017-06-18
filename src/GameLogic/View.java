@@ -21,7 +21,7 @@ import java.util.Random;
  */
 public class View extends Application {
 
-    // GameLogic.Game variables
+    // GameLogic.Model variables
     private static final int BOARD_SIZE = 20;
     private static final double WINDOW_WIDTH = 1000;
     private static final int TILE_SIZE = 30;
@@ -84,7 +84,7 @@ public class View extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
-        primaryStage.setTitle("HawkDove: A GameLogic.Game Theory Battleground");
+        primaryStage.setTitle("HawkDove: A GameLogic.Model Theory Battleground");
 
         root.getChildren().add(tiles);
         root.getChildren().add(agents);
