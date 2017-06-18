@@ -1,5 +1,6 @@
 package Agents;
 
+import GameLogic.GridWorld;
 import GameLogic.Position;
 import GameLogic.SearchNode;
 import Tiles.Tile;
@@ -25,9 +26,9 @@ public abstract class Agent {
     private HashMap<Agent, ArrayList<Boolean>> pastEncounters;      // remember outcomes of past encounters with agents
     private Random r = new Random();
 
-    Agent(Position spawnLocation, int startingFood, String name) {
+    Agent(Position spawnLocation, String name) {
         this.position = spawnLocation;
-        this.food = startingFood;
+        this.food = GridWorld.STARTING_FOOD;
         this.steps_taken = 0;
         this.children_spawned = 0;
         this.name = name;
@@ -105,12 +106,13 @@ public abstract class Agent {
         return node.tile.position;
     }
 
-    // TODO implement. If no food in adjacent tiles, use depth-limited BFS to check for nearby food
-    abstract Position scanForFood();
-
-    // If an adjacent
+    // Move to next square
     public void move() {
-
+        if (!next_pos.equals(position)) {
+            last_pos = position;
+            position = next_pos;
+            steps_taken += 1;
+        }
     }
 
     // If finding food uncontested or gaining some from a game
@@ -128,12 +130,31 @@ public abstract class Agent {
      * @param opposingAgent Another agent trying to claim the food on the same turn
      * @return A Strategy move played by the Agent in this game
      */
-    public abstract Strategy playGame(Agent opposingAgent);
+    public Strategy playGame(Agent opposingAgent) {
+        return null;
+    }
 
-    // TODO implement
-    abstract Agent die();
+    // Receive location to spawn a child if there is a free adjacent tile
+    Position spawnChild(Tile[][] tiles) {
 
-    // TODO implement
-    abstract Agent spawnChild(Position spawnLocation, String name);
+        Position spawnPos = null;
 
+        // if previous position is vacant, choose that
+        if (last_pos != null && tiles[last_pos.x][last_pos.y].agents.size() == 0)
+            spawnPos = last_pos;
+        else {
+            // else, any adjacent vacant tile
+            Position[] adjacents = getAdjacents(position);
+            for (Position pos : adjacents) {
+                if (tiles[last_pos.x][last_pos.y].agents.size() == 0)
+                    spawnPos = pos;
+            }
+        }
+
+        // all surrounding tiles are walls or occupied; don't spawn yet
+        if (spawnPos == null)
+            return null;
+        else
+            return spawnPos;
+    }
 }

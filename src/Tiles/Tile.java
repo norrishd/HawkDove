@@ -13,7 +13,7 @@ public abstract class Tile {
 
     String image;
     public Position position;
-    ArrayList<Agent> agents;        // agents present at this Tile
+    public ArrayList<Agent> agents;        // agents present at this Tile
     private boolean hasFood;
 
     public Tile(Position position, String image) {
