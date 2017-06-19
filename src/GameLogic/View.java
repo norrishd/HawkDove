@@ -28,14 +28,13 @@ public class View extends Application {
     // GameLogic.WorldSettings variables
     private final Group root = new Group();
     private final Group tiles = new Group();
+    private final Group food = new Group();
     private final Group agents = new Group();
 
     /**
      * Draw the game tiles
      */
     public void drawWorldTiles(Tile[][] worldTiles, int tileSize, int offset) {
-
-        tiles.getChildren().clear();
 
         for (int y = 0; y < worldTiles.length; y++) {
             for (int x = 0; x < worldTiles[0].length; x++) {
@@ -46,11 +45,21 @@ public class View extends Application {
                     newRec.setFill(Color.DARKGREEN);
                 }
                 tiles.getChildren().add(newRec);
+            }
+        }
+    }
 
+    // Draw all food items on the board
+    public void drawFood(Tile[][] worldTiles, int tileSize, int offset) {
+
+        food.getChildren().clear();
+
+        for (int y = 0; y < worldTiles.length; y++) {
+            for (int x = 0; x < worldTiles[0].length; x++) {
                 // if food on this tile, draw a circle on top
                 if (worldTiles[x][y].hasFood()) {
 
-                    tiles.getChildren().add(new Circle(x * tileSize + offset + tileSize / 2,
+                    food.getChildren().add(new Circle(x * tileSize + offset + tileSize / 2,
                             y * tileSize + offset + tileSize / 2, tileSize / 6, Color.DARKRED));
                 }
             }
@@ -118,6 +127,7 @@ public class View extends Application {
         makecontrols(gridWorld, controller);
 
         root.getChildren().add(tiles);
+        root.getChildren().add(food);
         root.getChildren().add(agents);
 
         primaryStage.setScene(scene);

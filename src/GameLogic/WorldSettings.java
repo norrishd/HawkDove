@@ -9,7 +9,7 @@ public class WorldSettings {
     public static int STARTING_FOOD = 3;
     public int STEPS_TO_LOSE_FOOD = 10;
     public int FOOD_VALUE = 3;               // how much value each food item is worth
-    public double FOOD_GROWTH_RATE = 1.0;    // food will spawn once per turn
+    public double FOOD_GROWTH_RATE = 0.5;    // rough frequency that food grows
     public int SPAWN_THRESHOLD = 10;         // how much food an agent must accrue before spawning a child
     public int SPAWN_COST = 2;               // the food cost to spawn a child
     public int CHILD_START_FOOD = 3;         // the amount of food a parent gives to its child to start with

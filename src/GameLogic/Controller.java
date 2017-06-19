@@ -21,6 +21,6 @@ public class Controller {
         gridWorld.moveAgents();
         gridWorld.growFood();
         view.drawAgents(gridWorld.agents, gridWorld.TILE_SIZE, gridWorld.OFFSET);
-        view.drawWorldTiles(gridWorld.tiles, gridWorld.TILE_SIZE, gridWorld.OFFSET);
+        view.drawFood(gridWorld.tiles, gridWorld.TILE_SIZE, gridWorld.OFFSET);
     }
 }
