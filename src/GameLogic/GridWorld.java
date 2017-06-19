@@ -120,13 +120,31 @@ public class GridWorld extends WorldSettings {
     // User pressed button for next turn
     void moveAgents() {
         for (Agent agent : agents) {
+            Position oldPos = agent.position;
             agent.searchForFood(tiles, DFSlimit);
             agent.move();
-            if (tiles[agent.position.x][agent.position.y].hasFood()) {
-                tiles[agent.position.x][agent.position.y].loseFood();
-                agent.gain_food(1);
+            Position newPos = agent.position;
+
+            // if agent moved, update tile it is associated with & harvest food
+            if (!oldPos.equals(newPos)) {
+                tiles[oldPos.x][oldPos.y].agents.remove(agent);
+                tiles[newPos.x][newPos.y].agents.add(agent);
+                if (tiles[newPos.x][newPos.y].hasFood()) {
+                    tiles[newPos.x][newPos.y].loseFood();
+                    agent.gain_food(1);
+                }
             }
-            System.out.println(agent.toString());
+        }
+    }
+
+    // if any agent's food stores drop below 0, it dies
+    void killDepletedAgents() {
+        for (Agent agent : agents) {
+            if (agent.food <= 0) {
+                Position deathPlace = agent.position;
+                agents.remove(agent);
+                tiles[deathPlace.x][deathPlace.y].agents.remove(agent);
+            }
         }
     }
 

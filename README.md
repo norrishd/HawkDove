@@ -45,16 +45,25 @@ breadth-first search to "look around" for food. If nothing nearby, will choose a
 * Depth-limited breadth-first search limit = 3
 
 ## Development tracking - features implemented
-1. Environments can be randomly generated according to various patterns
-2. Agents can spawn randomly in the world
+1. Environments are randomly generated according to an input pattern
+2. Agents initialize at random locations in the world
+3. Food grows at random locations over time
+4. Agents use a depth-limited BFS approach to seek out food, aimed to mimic real animal cognitive function:
+  - If any adjacent square has food, agent will move toward that
+  - If no food is adjacent, agent will "look around" some max number of squares to find the nearest available food. 
+    If it finds any, it will set this food as a "goal" to reach
+  - As long as goal food doesn't get taken by another agent, it will be remembered and moved toward by a shortest possible
+    route. However, agent may get distracted by other adjacent food along the way.
+  - If no nearby food can be found, 
 
 ## Features to be implemented
-* Food spawns
-* Agents navigate towards food
+* Agents can play games
+* Agents can die
+* Agents can spawn children
+* User can click agent and panel will diplay information
 * User can control an agent
 * User can adjust:
   * number of steps to lose 1 food  
 * food can have variable values?
-* multiple PNGs for floor/wall tiles so map looks nice 
- 
- 
+* multiple images for floor/wall tiles so map looks nice 
+* little meter displays an agent's remaining fuel in a meter

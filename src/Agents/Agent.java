@@ -18,7 +18,7 @@ public abstract class Agent {
     public Position position;
     private Position last_pos = null;   // previous position agent was at. Prefers spawning here, and not re-visiting
     private Position next_pos = null;
-    private int food;
+    public int food;
     private int steps_taken;            // way to keep track how long an agent has survived
     private int children_spawned;
 
@@ -133,6 +133,7 @@ public abstract class Agent {
     }
 
     // Helper function to take a SearchNode and finds the next Tile in the path
+    // TODO there's some bug here where can get null pointer exceptions
     private Position findNextTilePos(SearchNode node) {
         while (Math.abs(position.x - node.tile.position.x) + Math.abs(position.y - node.tile.position.y) != 1) {
             node = node.parent;
@@ -148,6 +149,10 @@ public abstract class Agent {
             position = next_pos;
             next_pos = null;
             steps_taken += 1;
+            if (steps_taken % GridWorld.STEPS_TO_LOSE_FOOD == 0) {
+                this.lose_food(1);
+                System.out.println("Food remaining for " + this.getClass() + ": " + food);
+            }
 
             // if at goal, can forget it
             if (goal != null && goal.tile.position.equals(position))
