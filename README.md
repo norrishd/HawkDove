@@ -42,7 +42,7 @@ breadth-first search to "look around" for food. If nothing nearby, will choose a
 * threshold to spawn = 10
 * food given to offspring = 5
 * food spawn rate = 1 per turn
-* Depth-limited breadth-first search limit = 3
+* Depth-limited breadth-first search limit = 5
 
 ## Development tracking - features implemented
 1. Environments are randomly generated according to an input pattern
@@ -54,12 +54,14 @@ breadth-first search to "look around" for food. If nothing nearby, will choose a
     If it finds any, it will set this food as a "goal" to reach
   - As long as goal food doesn't get taken by another agent, it will be remembered and moved toward by a shortest possible
     route. However, agent may get distracted by other adjacent food along the way.
-  - If no nearby food can be found, 
+  - If no nearby food can be found, agent will choose a move randomly, including possibly staying put, with a bias against
+    returning to the Tile it was most recently at.
+5. Agents die if their food level drops to 0
 
 ## Features to be implemented
-* Agents can play games
-* Agents can die
 * Agents can spawn children
+* Keyboard controls
+* Agents can play games
 * User can click agent and panel will diplay information
 * User can control an agent
 * User can adjust:

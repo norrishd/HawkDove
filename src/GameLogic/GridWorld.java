@@ -139,11 +139,13 @@ public class GridWorld extends WorldSettings {
 
     // if any agent's food stores drop below 0, it dies
     void killDepletedAgents() {
-        for (Agent agent : agents) {
-            if (agent.food <= 0) {
-                Position deathPlace = agent.position;
-                agents.remove(agent);
-                tiles[deathPlace.x][deathPlace.y].agents.remove(agent);
+        if (agents.size() > 0) {
+            for (Agent agent : agents) {
+                if (agent.food <= 0) {
+                    Position deathPlace = agent.position;
+                    agents.remove(agent);
+                    tiles[deathPlace.x][deathPlace.y].agents.remove(agent);
+                }
             }
         }
     }
