@@ -15,7 +15,7 @@ import java.util.Random;
 public class GridWorld extends WorldSettings {
 
     public Tile[][] tiles;             // store all board pieces
-    ArrayList<Agent> agents;    // store all agents in play
+    public ArrayList<Agent> agents;    // store all agents in play
     private Random r = new Random();
 
     public GridWorld() {
