@@ -96,6 +96,7 @@ public class GridWorld extends WorldSettings {
         else if (!tiles[spawnLocation.x][spawnLocation.y].walkable())
             throw new IllegalArgumentException("Cannot spawn an Agent on this kind of tile");
         tiles[spawnLocation.x][spawnLocation.y].addAgent(newVisitor);
+        agents.add(newVisitor);
     }
 
     // Get random walkable tile

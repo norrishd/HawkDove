@@ -17,8 +17,8 @@ public class WorldSettings {
     public KinLoyalty kinLoyalty = KinLoyalty.ETERNAL;
 
     // Game play mode variables
-    public int WORLD_TILE_HEIGHT = 10;                 // number of tiles vertically
-    public int WORLD_TILE_WIDTH = 10;                 // number of tiles horizontally
+    public static int WORLD_TILE_HEIGHT = 10;                 // number of tiles vertically
+    public static int WORLD_TILE_WIDTH = 10;                 // number of tiles horizontally
     public boolean autoplayMode = false;
     public boolean playMode = false;
 
