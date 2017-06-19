@@ -148,6 +148,10 @@ public abstract class Agent {
             position = next_pos;
             next_pos = null;
             steps_taken += 1;
+
+            // if at goal, can forget it
+            if (goal != null && goal.tile.position.equals(position))
+                goal = null;
         }
     }
 
@@ -202,7 +206,7 @@ public abstract class Agent {
         String returnString = "Name: " + name + "\nAgent type: " + this.getClass() +
                 "\nPosition: " + position.getCoords() + "\nLast pos: " ;
         returnString = last_pos != null ? returnString + last_pos.getCoords() : returnString + "none";
-        returnString = goal != null ? returnString + "\nGoal: " + goal : returnString + "\nGoal: none";
+        returnString = goal != null ? returnString + "\nGoal: " + goal.tile.position.getCoords() : returnString + "\nGoal: none";
         returnString += "\nFood: " + food + "\nSteps: " + steps_taken + "\nChildren spawned: " + children_spawned + "\n";
 
         return returnString;

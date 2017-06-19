@@ -40,20 +40,21 @@ public class View extends Application {
         for (int y = 0; y < worldTiles.length; y++) {
             for (int x = 0; x < worldTiles[0].length; x++) {
                 Rectangle newRec = new Rectangle(x * tileSize + offset, y * tileSize + offset, tileSize, tileSize);
-                if (worldTiles[x][y].walkable()) {
-                    newRec.setFill(Color.DARKGREEN);
-                    if (worldTiles[x][y].hasFood()) {
-                        System.out.println("Food at " + x + ", " + y);
-                        tiles.getChildren().add(new Circle(x * tileSize + offset + tileSize / 2,
-                                y * tileSize + offset + tileSize / 2, tileSize / 4, Color.DARKRED));
-                    } else
-                        System.out.print(".");
-                } else
+                if (!worldTiles[x][y].walkable()) {
                     newRec.setFill(Color.DARKGRAY);
+                } else {
+                    newRec.setFill(Color.DARKGREEN);
+                }
                 tiles.getChildren().add(newRec);
+
+                // if food on this tile, draw a circle on top
+                if (worldTiles[x][y].hasFood()) {
+
+                    tiles.getChildren().add(new Circle(x * tileSize + offset + tileSize / 2,
+                            y * tileSize + offset + tileSize / 2, tileSize / 6, Color.DARKRED));
+                }
             }
         }
-        System.out.println();
     }
 
     public void drawAgents(ArrayList<Agent> currentAgents, int tileSize, int offset) {
@@ -95,7 +96,7 @@ public class View extends Application {
         root.getChildren().add(hb);
     }
 
-    
+
     @Override
     public void start(Stage primaryStage) throws Exception {
 
