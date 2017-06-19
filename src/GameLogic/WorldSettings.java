@@ -17,13 +17,13 @@ public class WorldSettings {
     public KinLoyalty kinLoyalty = KinLoyalty.ETERNAL;
 
     // Game play mode variables
-    public static int WORLD_X_TILES = 15;           // number of tiles vertically
-    public static int WORLD_Y_TILES = 15;           // number of tiles horizontally
+    public int WORLD_X_TILES = 15;           // number of tiles vertically
+    public int WORLD_Y_TILES = 15;           // number of tiles horizontally
     public boolean autoplayMode = false;
     public boolean playMode = false;
 
     // GUI variables
-    public static int TILE_SIZE = 30;
+    public int TILE_SIZE = 30;
     public int OFFSET = 10;                         // makes tiles and agents position properly somehow
     public int PANEL_WIDTH = 300;                   // The width of the control panel buttons will go on
     public int PANEL_MIN_HEIGHT = 400;

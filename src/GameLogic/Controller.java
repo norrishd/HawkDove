@@ -12,7 +12,7 @@ public class Controller {
         this.gridWorld = gridWorld;
     }
 
-    public void nextTurn(boolean action) {
+    public void nextTurn() {
         gridWorld.nextTurn();
     }
 

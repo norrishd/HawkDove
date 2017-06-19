@@ -14,6 +14,6 @@ public class SearchNode {
     public SearchNode(Tile tile, SearchNode parent, int depth) {
         this.tile = tile;
         this.parent = parent;
-        this.depth = parent.depth + 1;
+        this.depth = depth;
     }
 }

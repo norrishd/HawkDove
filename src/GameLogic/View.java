@@ -7,8 +7,12 @@ import Tiles.FloorTile;
 import Tiles.Tile;
 import Tiles.TilePattern;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -57,13 +61,30 @@ public class View extends Application {
         }
     }
 
-    private void makecontrols(GridWorld gridWorld) {
+    private void makecontrols(GridWorld gridWorld, Controller controller) {
         // Control panel background rectangle
         Rectangle newRec = new Rectangle(gridWorld.WINDOW_WIDTH - gridWorld.PANEL_WIDTH - gridWorld.OFFSET,
                 gridWorld.OFFSET, gridWorld.PANEL_WIDTH, gridWorld.WINDOW_HEIGHT - 2 * gridWorld.OFFSET);
-        newRec.setFill(Color.BISQUE);
+        newRec.setFill(Color.CHARTREUSE);
         root.getChildren().add(newRec);
+
+        Button nextTurnButton = new Button("Next turn");
+        nextTurnButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                controller.nextTurn();
+                }
+        });
+
+        HBox hb = new HBox();
+        hb.getChildren().addAll(nextTurnButton);
+        hb.setSpacing(20);
+        hb.setLayoutX(gridWorld.WINDOW_WIDTH - gridWorld.PANEL_WIDTH - gridWorld.OFFSET);
+        hb.setLayoutY(gridWorld.OFFSET);
+        root.getChildren().add(hb);
     }
+
+
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -74,15 +95,15 @@ public class View extends Application {
         gridWorld.addAgent(new DoveAgent(gridWorld.getWalkableTile(), "Adam"));
         gridWorld.addAgent(new HawkAgent(gridWorld.getWalkableTile(), "Eve"));
 
-        //Controller controller = new Controller();
-        //controller.addModel(gridWorld);
+        Controller controller = new Controller();
+        controller.addModel(gridWorld);
 
         Scene scene = new Scene(root, gridWorld.WINDOW_WIDTH, gridWorld.WINDOW_HEIGHT);
         primaryStage.setTitle("HawkDove: A Game Theory Battleground");
 
         drawWorldTiles(gridWorld.tiles, gridWorld.TILE_SIZE, gridWorld.OFFSET);
         drawAgents(gridWorld.agents, gridWorld.TILE_SIZE, gridWorld.OFFSET);
-        makecontrols(gridWorld);
+        makecontrols(gridWorld, controller);
 
         root.getChildren().add(tiles);
         root.getChildren().add(agents);
