@@ -21,6 +21,7 @@ public class GridWorld extends WorldSettings {
     public GridWorld() {
         super();
         this.tiles = new Tile[WORLD_TILE_HEIGHT][WORLD_TILE_WIDTH];     // allocate memory for all needed tiles
+        this.agents = new ArrayList<>();
     }
 
     /**
@@ -47,7 +48,7 @@ public class GridWorld extends WorldSettings {
                             break;
 
                         case RANDOM_DENSE:
-                            tiles[x][y] = r.nextDouble() > 0.65 ? new WallTile(new Position(x, y), "Wal11.png") :
+                            tiles[x][y] = r.nextDouble() > 0.75 ? new WallTile(new Position(x, y), "Wal11.png") :
                                     new FloorTile(new Position(x, y), "Floor1.png");
                             break;
 
@@ -86,7 +87,7 @@ public class GridWorld extends WorldSettings {
     }
 
     // Add an agent to a specific tile on the map
-    void addAgent(Agent newVisitor) throws Exception {
+    public void addAgent(Agent newVisitor) {
         Position spawnLocation = newVisitor.position;
         if (spawnLocation.x < 0 || spawnLocation.x > WORLD_TILE_WIDTH - 1 ||
                 spawnLocation.y < 0 || spawnLocation.y > WORLD_TILE_HEIGHT - 1)
@@ -100,7 +101,7 @@ public class GridWorld extends WorldSettings {
     }
 
     // Get random walkable tile
-    Position getWalkableTile() {
+    public Position getWalkableTile() {
         if (tiles.length == 0)
             throw new NoSuchElementException("World tiles haven't been initiated yet.");
 

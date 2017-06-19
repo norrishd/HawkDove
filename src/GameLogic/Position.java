@@ -12,4 +12,8 @@ public class Position {
         this.x = x;
         this.y = y;
     }
+
+    public String getCoords(){
+        return "(" + x + "," + y + ")";
+    }
 }
