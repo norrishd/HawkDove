@@ -32,10 +32,10 @@ public class TestView extends Application {
      * Draw the game tiles
      */
     private void drawWorldTiles(Tile[][] worldTiles) {
-        for (int x = 0; x < worldTiles.length; x++) {
-            for (int y = 0; y < worldTiles[0].length; y++) {
+        for (int y = 0; y < worldTiles.length; y++) {
+            for (int x = 0; x < worldTiles[0].length; x++) {
                 Rectangle newRec = new Rectangle(x * 30 + 10, y * 30 + 10, 30, 30);
-                if (worldTiles[x][y] instanceof FloorTile)
+                if (worldTiles[x][y].walkable())
                     newRec.setFill(Color.DARKGREEN);
                 else newRec.setFill(Color.DARKGRAY);
                 tiles.getChildren().add(newRec);
@@ -65,16 +65,14 @@ public class TestView extends Application {
         gridWorld.generateWorld(TilePattern.RANDOM_SPARSE);
         gridWorld.addAgent(new DoveAgent(gridWorld.getWalkableTile(), "Adam"));
 
-        //System.out.println(gridWorld.WORLD_TILE_WIDTH);
-
         //Controller controller = new Controller();
         //controller.addModel(gridWorld);
 
         Scene scene = new Scene(root, 800, 600);
         primaryStage.setTitle("HawkDove: A Game Theory Battleground");
 
-        /*drawWorldTiles(gridWorld.tiles);
-        drawAgents(gridWorld.agents, GridWorld.TILE_SIZE);*/
+        drawWorldTiles(gridWorld.tiles);
+        drawAgents(gridWorld.agents, GridWorld.TILE_SIZE);
 
         root.getChildren().add(tiles);
         root.getChildren().add(agents);

@@ -45,7 +45,8 @@ breadth-first search to "look around" for food. If nothing nearby, will choose a
 * Depth-limited breadth-first search limit = 3
 
 ## Development tracking - features implemented
-1. 
+1. Environments can be randomly generated according to various patterns
+2. Agents can spawn randomly in the world
 
 ## Features to be implemented
 * Food spawns

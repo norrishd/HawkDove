@@ -17,16 +17,16 @@ public class WorldSettings {
     public KinLoyalty kinLoyalty = KinLoyalty.ETERNAL;
 
     // Game play mode variables
-    public static int WORLD_TILE_HEIGHT = 20;                 // number of tiles vertically
-    public static int WORLD_TILE_WIDTH = 20;                 // number of tiles horizontally
+    public static int WORLD_TILE_HEIGHT = 15;                 // number of tiles vertically
+    public static int WORLD_TILE_WIDTH = 15;                 // number of tiles horizontally
     public boolean autoplayMode = false;
     public boolean playMode = false;
 
     // GUI variables
     public static int BOARD_SIZE = 20;
     public static int TILE_SIZE = 30;
-    public static double WINDOW_WIDTH = 1000;
-    public static double WINDOW_HEIGHT = (BOARD_SIZE * TILE_SIZE) + 20;
+    public double WINDOW_WIDTH = 1000;
+    public double WINDOW_HEIGHT = (BOARD_SIZE * TILE_SIZE) + 20;
 
     // Game performance variables
     public static int DFSlimit = 3;

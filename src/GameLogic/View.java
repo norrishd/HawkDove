@@ -35,7 +35,7 @@ public class View extends Application {
         for (int x = 0; x < worldTiles.length; x++) {
             for (int y = 0; y < worldTiles[0].length; y++) {
                 Rectangle newRec = new Rectangle(x * 30 + 10, y * 30 + 10, 30, 30);
-                if (worldTiles[x][y] instanceof FloorTile)
+                if (worldTiles[x][y].walkable())
                     newRec.setFill(Color.DARKGREEN);
                 else newRec.setFill(Color.DARKGRAY);
                 tiles.getChildren().add(newRec);
@@ -68,7 +68,7 @@ public class View extends Application {
         //Controller controller = new Controller();
         //controller.addModel(gridWorld);
 
-        Scene scene = new Scene(root, GridWorld.WINDOW_WIDTH, GridWorld.WINDOW_HEIGHT);
+        Scene scene = new Scene(root, gridWorld.WINDOW_WIDTH, gridWorld.WINDOW_HEIGHT);
         primaryStage.setTitle("HawkDove: A Game Theory Battleground");
 
         drawWorldTiles(gridWorld.tiles);

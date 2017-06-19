@@ -1,26 +1,28 @@
 package Tests;
 import Agents.DoveAgent;
 import GameLogic.*;
-
-import Tiles.TilePattern;
-import Tiles.WallTile;
 import org.junit.Test;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import Tiles.TilePattern;
+
 
 /**
- * Created by Noosh on 19/06/17.
+ * Tests to assist in development and debugging of the package
  */
+
 public class Tests {
 
     @Test
     public void makeGridWorld() {
         GridWorld gridWorld = new GridWorld();
+        assertFalse("Actually, tile size = " + gridWorld.tiles.length, gridWorld.tiles.length == 0);
 
         for (TilePattern pattern : TilePattern.values()) {
             gridWorld.generateWorld(pattern);
 
             System.out.println(pattern);
             drawWorld(gridWorld);
-            System.out.println();
         }
     }
 
@@ -32,13 +34,14 @@ public class Tests {
                     System.out.print("X ");
                 else {
                     if (gridWorld.tiles[i][j].agents.size() > 0)
-                        System.out.println("o");
+                        System.out.print("o ");
                     else
                         System.out.print("_ ");
                 }
             }
             System.out.println("");
         }
+        System.out.println("");
     }
 
     @Test
@@ -47,9 +50,20 @@ public class Tests {
         gridWorld.generateWorld(TilePattern.OPEN_FIELD);
         Position spawnLocation = gridWorld.getWalkableTile();
         System.out.println("Agent to spawn at " + spawnLocation.getCoords());
-        DoveAgent adam = new DoveAgent(spawnLocation, "Adam");
-        gridWorld.addAgent(adam);
+        gridWorld.addAgent(new DoveAgent(spawnLocation, "Adam"));
+        drawWorld(gridWorld);
+        assertTrue(gridWorld.agents.size() == 1);
 
+        spawnLocation = gridWorld.getWalkableTile();
+        System.out.println("Agent to spawn at " + spawnLocation.getCoords());
+        gridWorld.addAgent(new DoveAgent(spawnLocation, "Adam"));
+        drawWorld(gridWorld);
+        assertTrue(gridWorld.agents.size() == 2);
 
+        spawnLocation = gridWorld.getWalkableTile();
+        System.out.println("Agent to spawn at " + spawnLocation.getCoords());
+        gridWorld.addAgent(new DoveAgent(spawnLocation, "Adam"));
+        drawWorld(gridWorld);
+        assertTrue(gridWorld.agents.size() == 3);
     }
 }
