@@ -4,6 +4,7 @@ import GameLogic.GridWorld;
 import GameLogic.Position;
 import GameLogic.SearchNode;
 import Tiles.Tile;
+import javafx.geometry.Pos;
 
 import java.util.*;
 
@@ -50,10 +51,10 @@ public abstract class Agent {
      * @param max_depth the max search depth to continue BFS to
      */
     public void searchForFood(Tile[][] tiles, int max_depth) {
-        Position[] adjacentTiles = getAdjacentPositions(this.position);
+        Position[] adjacentPositions = getAdjacentPositions(this.position);
         ArrayList<Position> adjacentFood = new ArrayList<>();
 
-        for (Position pos : adjacentTiles) {
+        for (Position pos : adjacentPositions) {
             if (tiles[pos.x][pos.y].walkable() && tiles[pos.x][pos.y].hasFood())
                 adjacentFood.add(pos);
         }
@@ -69,16 +70,16 @@ public abstract class Agent {
                 // If not, DL-BFS to try to find food
             else {
                 goal = null;
-                DL_BFS(adjacentTiles, tiles, max_depth);
+                DL_BFS(tiles, max_depth);
             }
             // No adjacent food and no goal - DL-BFS to try to find
         } else
-            DL_BFS(adjacentTiles, tiles, max_depth);
+            DL_BFS(tiles, max_depth);
     }
 
     // Depth-limited BFS to try to find a nearby food
-    private void DL_BFS(Position[] adjacentPositions, Tile[][] tiles, int max_depth) {
-
+    private void DL_BFS(Tile[][] tiles, int max_depth) {
+        Position[] adjacentPositions;
         HashMap<Position, SearchNode> discovered = new HashMap<>();             // remember visited tiles
         LinkedList<SearchNode> queue = new LinkedList<>();                      // FIFO queue
         queue.add(new SearchNode(tiles[position.x][position.y], null, 0));
@@ -110,13 +111,17 @@ public abstract class Agent {
         // No food found nearby; choose a random move
         if (!goalFound) {
             adjacentPositions = getAdjacentPositions(this.position);
-            int choice = r.nextInt(adjacentPositions.length);
+            ArrayList<Position> adjacentWalkables = new ArrayList<>();
+            for (Position pos : adjacentPositions) {
+                if (tiles[pos.x][pos.y].walkable())
+                    adjacentWalkables.add(pos);
+            }
+
+            int choice = r.nextInt(adjacentWalkables.size());
             // re-roll once if select previous tile. Puts bias against going backwards though still allows
-            if (adjacentPositions[choice].equals(last_pos))
-                choice = r.nextInt(adjacentPositions.length);
-            next_pos = adjacentPositions[choice];
-            System.out.println("No nearby food found");
-            System.out.println("Next position: " + next_pos.x + ", " + next_pos.y + "");
+            if (adjacentWalkables.get(choice).equals(last_pos))
+                choice = r.nextInt(adjacentWalkables.size());
+            next_pos = adjacentWalkables.get(choice);
         }
     }
 
@@ -197,7 +202,8 @@ public abstract class Agent {
         String returnString = "Name: " + name + "\nAgent type: " + this.getClass() +
                 "\nPosition: " + position.getCoords() + "\nLast pos: " ;
         returnString = last_pos != null ? returnString + last_pos.getCoords() : returnString + "none";
-        returnString += "\nFood: " + food + "\nSteps: " + steps_taken + "\nSpawned: " + children_spawned;
+        returnString = goal != null ? returnString + "\nGoal: " + goal : returnString + "\nGoal: none";
+        returnString += "\nFood: " + food + "\nSteps: " + steps_taken + "\nChildren spawned: " + children_spawned + "\n";
 
         return returnString;
     }

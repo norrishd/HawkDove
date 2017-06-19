@@ -118,11 +118,27 @@ public class GridWorld extends WorldSettings {
     }
 
     // User pressed button for next turn
-    void nextTurn() {
+    void moveAgents() {
         for (Agent agent : agents) {
             agent.searchForFood(tiles, DFSlimit);
             agent.move();
+            if (tiles[agent.position.x][agent.position.y].hasFood()) {
+                tiles[agent.position.x][agent.position.y].loseFood();
+                agent.gain_food(1);
+            }
             System.out.println(agent.toString());
+        }
+    }
+
+    // randomly add food to a tile
+    public void growFood() {
+        // possibly grow food
+        if (r.nextDouble() < FOOD_GROWTH_RATE) {
+            int x = r.nextInt(WORLD_Y_TILES - 2) + 1;
+            int y = r.nextInt(WORLD_X_TILES - 2) + 1;
+
+            if (tiles[x][y].walkable())
+                tiles[x][y].growFood();
         }
     }
 }

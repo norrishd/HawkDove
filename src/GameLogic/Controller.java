@@ -1,9 +1,5 @@
 package GameLogic;
 
-import Agents.Agent;
-
-import java.util.ArrayList;
-
 /**
  * Controller (listener) class to receive user input and update model
  */
@@ -22,7 +18,9 @@ public class Controller {
 
     public void nextTurn() {
 
-        gridWorld.nextTurn();
+        gridWorld.moveAgents();
+        gridWorld.growFood();
         view.drawAgents(gridWorld.agents, gridWorld.TILE_SIZE, gridWorld.OFFSET);
+        view.drawWorldTiles(gridWorld.tiles, gridWorld.TILE_SIZE, gridWorld.OFFSET);
     }
 }

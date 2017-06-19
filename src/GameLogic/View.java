@@ -35,13 +35,23 @@ public class View extends Application {
     /**
      * Draw the game tiles
      */
-    private void drawWorldTiles(Tile[][] worldTiles, int tileSize, int offset) {
+    public void drawWorldTiles(Tile[][] worldTiles, int tileSize, int offset) {
+
+        tiles.getChildren().clear();
+
         for (int x = 0; x < worldTiles.length; x++) {
             for (int y = 0; y < worldTiles[0].length; y++) {
                 Rectangle newRec = new Rectangle(x * tileSize + offset, y * tileSize + offset, tileSize, tileSize);
-                if (worldTiles[x][y].walkable())
+                if (worldTiles[x][y].walkable()) {
                     newRec.setFill(Color.DARKGREEN);
-                else newRec.setFill(Color.DARKGRAY);
+                    if (worldTiles[x][y].hasFood()) {
+                        System.out.println("Food at " + x + ", " + y);
+                        tiles.getChildren().add(new Circle(x * tileSize + offset + tileSize / 2,
+                                y * tileSize + offset + tileSize / 2, tileSize/6, Color.DARKRED));
+                    } else
+                        System.out.print(".");
+                } else
+                    newRec.setFill(Color.DARKGRAY);
                 tiles.getChildren().add(newRec);
             }
         }
