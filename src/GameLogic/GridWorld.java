@@ -120,7 +120,7 @@ public class GridWorld extends WorldSettings {
     // User pressed button for next turn
     void nextTurn() {
         for (Agent agent : agents) {
-            agent.checkForAdjacentFood(tiles, DFSlimit);
+            agent.searchForFood(tiles, DFSlimit);
             agent.move();
             System.out.println(agent.toString());
         }

@@ -47,7 +47,9 @@ public class View extends Application {
         }
     }
 
-    private void drawAgents(ArrayList<Agent> currentAgents, int tileSize, int offset) {
+    public void drawAgents(ArrayList<Agent> currentAgents, int tileSize, int offset) {
+
+        agents.getChildren().clear();
 
         for (Agent agent : currentAgents) {
             if (agent instanceof DoveAgent)
@@ -97,6 +99,7 @@ public class View extends Application {
 
         Controller controller = new Controller();
         controller.addModel(gridWorld);
+        controller.addView(this);
 
         Scene scene = new Scene(root, gridWorld.WINDOW_WIDTH, gridWorld.WINDOW_HEIGHT);
         primaryStage.setTitle("HawkDove: A Game Theory Battleground");
