@@ -51,12 +51,14 @@ public abstract class Agent {
         if (adjacentFood.size() > 0) {
             int choice = r.nextInt(adjacentFood.size());
             next_pos = adjacentFood.get(choice);
+            System.out.println("Next position: " + next_pos.x + ", " + next_pos.y + "");
             // if no adjacent food, check if there's still food at the goal and if so move towards it
         } else if (goal != null && goal.tile.hasFood()) {
             next_pos = findNextTilePos(goal);
+            System.out.println("Next position: " + next_pos.x + ", " + next_pos.y + "");
           // else depth-limited DFS to find nearest food
         } else {
-            HashMap<Tile, SearchNode> discovered = new HashMap<>();        // remember visited tiles
+            HashMap<Position, SearchNode> discovered = new HashMap<>();        // remember visited tiles
 
             LinkedList<SearchNode> queue = new LinkedList<>();
             queue.add(new SearchNode(tiles[position.x][position.y], null, 0));
@@ -67,13 +69,17 @@ public abstract class Agent {
                 if (node.tile.hasFood()) {
                     goal = node;
                     next_pos = findNextTilePos(goal);
+                    System.out.println("Next position: " + next_pos.x + ", " + next_pos.y + "");
                     goalFound = true;
                 } else {
                     adjacents = getAdjacents(node.tile.position);
                     for (Position pos : adjacents) {
-                        if (!discovered.containsKey(tiles[pos.x][pos.y]) && node.depth < max_depth) {
+                        // ignore adjacent positions outside the board; ignore already visited positions
+                        if (pos.x < 0 || pos.x > tiles.length - 1 || pos.y < 0 || pos.y > tiles.length - 1)
+                            continue;
+                        if (!discovered.containsKey(tiles[pos.x][pos.y].position) && node.depth < max_depth) {
                             SearchNode newNode = new SearchNode(tiles[pos.x][pos.y], node, node.depth + 1);
-                            discovered.put(tiles[pos.x][pos.y], newNode);
+                            discovered.put(tiles[pos.x][pos.y].position, newNode);
                             queue.add(newNode);
                         }
                     }
@@ -87,6 +93,8 @@ public abstract class Agent {
                 if (adjacents[choice].equals(last_pos))
                     choice = r.nextInt(adjacents.length);
                 next_pos = adjacents[choice];
+                System.out.println("No nearby food found");
+                System.out.println("Next position: " + next_pos.x + ", " + next_pos.y + "");
             }
         }
     }
@@ -111,6 +119,7 @@ public abstract class Agent {
         if (!next_pos.equals(position)) {
             last_pos = position;
             position = next_pos;
+            next_pos = null;
             steps_taken += 1;
         }
     }
@@ -160,4 +169,14 @@ public abstract class Agent {
 
     // Spawn a child of same type as parent
     abstract Agent spawnChild(Position spawnPos);
+
+    @Override
+    public String toString() {
+        String returnString = "Name: " + name + "\nAgent type: " + this.getClass() +
+                "\nPosition: " + position.getCoords() + "\nLast pos: " + last_pos.getCoords() +
+                "\nNext pos: " + next_pos.getCoords() + "\nFood: " + food + "\nSteps: " + steps_taken +
+                "\nSpawned: " + children_spawned;
+
+        return returnString;
+    }
 }

@@ -122,6 +122,7 @@ public class GridWorld extends WorldSettings {
         for (Agent agent : agents) {
             agent.checkForAdjacentFood(tiles, DFSlimit);
             agent.move();
+            System.out.println(agent.toString());
         }
     }
 }
