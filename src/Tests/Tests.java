@@ -35,6 +35,8 @@ public class Tests {
                 else {
                     if (gridWorld.tiles[i][j].agents.size() > 0)
                         System.out.print("o ");
+                    else if (gridWorld.tiles[i][j].hasFood())
+                        System.out.print("* ");
                     else
                         System.out.print("_ ");
                 }
@@ -66,4 +68,18 @@ public class Tests {
         drawWorld(gridWorld);
         assertTrue(gridWorld.agents.size() == 3);
     }
+
+    @Test
+    public void growFood() {
+        GridWorld gridWorld = new GridWorld();
+        gridWorld.generateWorld(TilePattern.OPEN_FIELD);
+        drawWorld(gridWorld);
+        gridWorld.growFood();
+        drawWorld(gridWorld);
+        gridWorld.growFood();
+        drawWorld(gridWorld);
+        gridWorld.growFood();
+        drawWorld(gridWorld);
+    }
+
 }

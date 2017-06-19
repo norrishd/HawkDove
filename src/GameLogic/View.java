@@ -19,7 +19,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * View class to handle display logic
@@ -30,7 +29,6 @@ public class View extends Application {
     private final Group root = new Group();
     private final Group tiles = new Group();
     private final Group agents = new Group();
-    Random r = new Random();
 
     /**
      * Draw the game tiles
@@ -39,15 +37,15 @@ public class View extends Application {
 
         tiles.getChildren().clear();
 
-        for (int x = 0; x < worldTiles.length; x++) {
-            for (int y = 0; y < worldTiles[0].length; y++) {
+        for (int y = 0; y < worldTiles.length; y++) {
+            for (int x = 0; x < worldTiles[0].length; x++) {
                 Rectangle newRec = new Rectangle(x * tileSize + offset, y * tileSize + offset, tileSize, tileSize);
                 if (worldTiles[x][y].walkable()) {
                     newRec.setFill(Color.DARKGREEN);
                     if (worldTiles[x][y].hasFood()) {
                         System.out.println("Food at " + x + ", " + y);
                         tiles.getChildren().add(new Circle(x * tileSize + offset + tileSize / 2,
-                                y * tileSize + offset + tileSize / 2, tileSize/6, Color.DARKRED));
+                                y * tileSize + offset + tileSize / 2, tileSize / 4, Color.DARKRED));
                     } else
                         System.out.print(".");
                 } else
@@ -55,6 +53,7 @@ public class View extends Application {
                 tiles.getChildren().add(newRec);
             }
         }
+        System.out.println();
     }
 
     public void drawAgents(ArrayList<Agent> currentAgents, int tileSize, int offset) {
@@ -96,8 +95,7 @@ public class View extends Application {
         root.getChildren().add(hb);
     }
 
-
-
+    
     @Override
     public void start(Stage primaryStage) throws Exception {
 
