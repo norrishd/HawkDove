@@ -31,10 +31,10 @@ public class View extends Application {
     /**
      * Draw the game tiles
      */
-    private void drawWorldTiles(Tile[][] worldTiles) {
+    private void drawWorldTiles(Tile[][] worldTiles, int tileSize, int offset) {
         for (int x = 0; x < worldTiles.length; x++) {
             for (int y = 0; y < worldTiles[0].length; y++) {
-                Rectangle newRec = new Rectangle(x * 30 + 10, y * 30 + 10, 30, 30);
+                Rectangle newRec = new Rectangle(x * tileSize + offset, y * tileSize + offset, tileSize, tileSize);
                 if (worldTiles[x][y].walkable())
                     newRec.setFill(Color.DARKGREEN);
                 else newRec.setFill(Color.DARKGRAY);
@@ -43,18 +43,26 @@ public class View extends Application {
         }
     }
 
-    private void drawAgents(ArrayList<Agent> currentAgents, int tileSize) {
+    private void drawAgents(ArrayList<Agent> currentAgents, int tileSize, int offset) {
 
         for (Agent agent : currentAgents) {
             if (agent instanceof DoveAgent)
-                agents.getChildren().add(new Circle(agent.position.x * tileSize + 10 + tileSize / 2,
-                        agent.position.y * tileSize + 10 +
-                                tileSize / 2, 10, Color.LIGHTBLUE));
+                agents.getChildren().add(new Circle(agent.position.x * tileSize + offset + tileSize / 2,
+                        agent.position.y * tileSize + offset +
+                                tileSize / 2, tileSize / 4, Color.LIGHTBLUE));
             else if (agent instanceof HawkAgent)
-                agents.getChildren().add(new Circle(agent.position.x * tileSize + 10 + tileSize / 2,
-                        agent.position.y * tileSize + 10 +
-                                tileSize / 2, 10, Color.PALEVIOLETRED));
+                agents.getChildren().add(new Circle(agent.position.x * tileSize + offset + tileSize / 2,
+                        agent.position.y * tileSize + offset +
+                                tileSize / 2, tileSize / 4, Color.PALEVIOLETRED));
         }
+    }
+
+    private void makecontrols(GridWorld gridWorld) {
+        // Control panel background rectangle
+        Rectangle newRec = new Rectangle(gridWorld.WINDOW_WIDTH - gridWorld.PANEL_WIDTH - gridWorld.OFFSET,
+                gridWorld.OFFSET, gridWorld.PANEL_WIDTH, gridWorld.WINDOW_HEIGHT - 2 * gridWorld.OFFSET);
+        newRec.setFill(Color.BISQUE);
+        root.getChildren().add(newRec);
     }
 
     @Override
@@ -64,6 +72,7 @@ public class View extends Application {
         GridWorld gridWorld = new GridWorld();
         gridWorld.generateWorld(TilePattern.RANDOM_SPARSE);
         gridWorld.addAgent(new DoveAgent(gridWorld.getWalkableTile(), "Adam"));
+        gridWorld.addAgent(new HawkAgent(gridWorld.getWalkableTile(), "Eve"));
 
         //Controller controller = new Controller();
         //controller.addModel(gridWorld);
@@ -71,8 +80,9 @@ public class View extends Application {
         Scene scene = new Scene(root, gridWorld.WINDOW_WIDTH, gridWorld.WINDOW_HEIGHT);
         primaryStage.setTitle("HawkDove: A Game Theory Battleground");
 
-        drawWorldTiles(gridWorld.tiles);
-        drawAgents(gridWorld.agents, GridWorld.TILE_SIZE);
+        drawWorldTiles(gridWorld.tiles, gridWorld.TILE_SIZE, gridWorld.OFFSET);
+        drawAgents(gridWorld.agents, gridWorld.TILE_SIZE, gridWorld.OFFSET);
+        makecontrols(gridWorld);
 
         root.getChildren().add(tiles);
         root.getChildren().add(agents);

@@ -20,7 +20,7 @@ public class GridWorld extends WorldSettings {
 
     public GridWorld() {
         super();
-        this.tiles = new Tile[WORLD_TILE_HEIGHT][WORLD_TILE_WIDTH];     // allocate memory for all needed tiles
+        this.tiles = new Tile[WORLD_X_TILES][WORLD_Y_TILES];     // allocate memory for all needed tiles
         this.agents = new ArrayList<>();
     }
 
@@ -30,10 +30,10 @@ public class GridWorld extends WorldSettings {
      */
     public void generateWorld(TilePattern pattern) {
 
-        for (int y = 0; y < WORLD_TILE_WIDTH; y++) {
-            for (int x = 0; x < WORLD_TILE_HEIGHT; x++) {
+        for (int y = 0; y < WORLD_Y_TILES; y++) {
+            for (int x = 0; x < WORLD_X_TILES; x++) {
                 // Make all perimeter Tiles into Walls
-                if (x == 0 || x == WORLD_TILE_WIDTH - 1 || y == 0 || y == WORLD_TILE_HEIGHT - 1) {
+                if (x == 0 || x == WORLD_Y_TILES - 1 || y == 0 || y == WORLD_X_TILES - 1) {
                     // TODO add tile sprites and randomise different varieties
                     tiles[x][y] = new WallTile(new Position(x, y), "Wal11.png");
                 } else {
@@ -58,19 +58,19 @@ public class GridWorld extends WorldSettings {
                                 tiles[x][y] = new FloorTile(new Position(x, y), "Floor1.png");
                             else {
                                 // If at last position where there could be a gap, make sure there is at least one
-                                if (y == WORLD_TILE_WIDTH - 2) {
+                                if (y == WORLD_Y_TILES - 2) {
                                     for (int i = 0; i < y; i++)
                                         if (tiles[x][i] instanceof FloorTile)
                                             gapIncluded = true;
                                     if (!gapIncluded)
                                         tiles[x][y] = new FloorTile(new Position(x, y), "Floor1.png");
                                     else {
-                                        tiles[x][y] = r.nextDouble() < (1.0 / (WORLD_TILE_WIDTH - 2)) ?
+                                        tiles[x][y] = r.nextDouble() < (1.0 / (WORLD_Y_TILES - 2)) ?
                                                 new FloorTile(new Position(x, y), "Floor1.png") :
                                                 new WallTile(new Position(x, y), "Wal11.png");
                                     }
                                 } else {        // randomly assign a gap with E(# gaps) = 1 per row
-                                    tiles[x][y] = r.nextDouble() < (1.0 / (WORLD_TILE_WIDTH - 2)) ?
+                                    tiles[x][y] = r.nextDouble() < (1.0 / (WORLD_Y_TILES - 2)) ?
                                             new FloorTile(new Position(x, y), "Floor1.png") :
                                             new WallTile(new Position(x, y), "Wal11.png");
                                 }
@@ -89,8 +89,8 @@ public class GridWorld extends WorldSettings {
     // Add an agent to a specific tile on the map
     public void addAgent(Agent newVisitor) {
         Position spawnLocation = newVisitor.position;
-        if (spawnLocation.x < 0 || spawnLocation.x > WORLD_TILE_WIDTH - 1 ||
-                spawnLocation.y < 0 || spawnLocation.y > WORLD_TILE_HEIGHT - 1)
+        if (spawnLocation.x < 0 || spawnLocation.x > WORLD_Y_TILES - 1 ||
+                spawnLocation.y < 0 || spawnLocation.y > WORLD_X_TILES - 1)
             throw new IndexOutOfBoundsException("That's outside the world!");
         else if (tiles[spawnLocation.x][spawnLocation.y] == null)
             throw new NoSuchElementException("World tiles haven't been initiated yet");
@@ -105,13 +105,13 @@ public class GridWorld extends WorldSettings {
         if (tiles.length == 0)
             throw new NoSuchElementException("World tiles haven't been initiated yet.");
 
-        int x = r.nextInt(WORLD_TILE_WIDTH);
-        int y = r.nextInt(WORLD_TILE_HEIGHT);
+        int x = r.nextInt(WORLD_Y_TILES);
+        int y = r.nextInt(WORLD_X_TILES);
 
         // DANGER! Infinite loop!
         while (!tiles[x][y].walkable()) {
-            x = r.nextInt(WORLD_TILE_WIDTH);
-            y = r.nextInt(WORLD_TILE_HEIGHT);
+            x = r.nextInt(WORLD_Y_TILES);
+            y = r.nextInt(WORLD_X_TILES);
         }
 
         return new Position(x, y);
