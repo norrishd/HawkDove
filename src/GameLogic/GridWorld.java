@@ -14,11 +14,11 @@ import java.util.Random;
  */
 public class GridWorld extends WorldSettings {
 
-    Tile[][] tiles;             // store all board pieces
+    public Tile[][] tiles;             // store all board pieces
     ArrayList<Agent> agents;    // store all agents in play
     private Random r = new Random();
 
-    GridWorld() {
+    public GridWorld() {
         super();
         this.tiles = new Tile[WORLD_TILE_HEIGHT][WORLD_TILE_WIDTH];     // allocate memory for all needed tiles
     }
@@ -27,12 +27,12 @@ public class GridWorld extends WorldSettings {
      * Populate the matrix of Tiles for this GridWOrld
      * @param pattern a TilePattern enum, indicating what the world will look like
      */
-    void generateWorld(TilePattern pattern) {
+    public void generateWorld(TilePattern pattern) {
 
-        for (int x = 0; x < WORLD_TILE_WIDTH; x++) {
-            for (int y = 0; y < WORLD_TILE_HEIGHT; y++) {
+        for (int y = 0; y < WORLD_TILE_WIDTH; y++) {
+            for (int x = 0; x < WORLD_TILE_HEIGHT; x++) {
                 // Make all perimeter Tiles into Walls
-                if (x == 0 || x == WORLD_TILE_WIDTH - 1 || y == 0 || y == WORLD_TILE_HEIGHT) {
+                if (x == 0 || x == WORLD_TILE_WIDTH - 1 || y == 0 || y == WORLD_TILE_HEIGHT - 1) {
                     // TODO add tile sprites and randomise different varieties
                     tiles[x][y] = new WallTile(new Position(x, y), "Wal11.png");
                 } else {
@@ -54,31 +54,31 @@ public class GridWorld extends WorldSettings {
                         case CORRIDORS:
                             boolean gapIncluded = false;
                             if (x % 2 == 1)     // every odd row should be clear
-                                new FloorTile(new Position(x, y), "Floor1.png");
+                                tiles[x][y] = new FloorTile(new Position(x, y), "Floor1.png");
                             else {
                                 // If at last position where there could be a gap, make sure there is at least one
-                                if (x == WORLD_TILE_WIDTH - 2) {
-                                    for (int i = 0; i < x; i++)
-                                        if (tiles[i][y] instanceof FloorTile)
+                                if (y == WORLD_TILE_WIDTH - 2) {
+                                    for (int i = 0; i < y; i++)
+                                        if (tiles[x][i] instanceof FloorTile)
                                             gapIncluded = true;
                                     if (!gapIncluded)
                                         tiles[x][y] = new FloorTile(new Position(x, y), "Floor1.png");
                                     else {
-                                        tiles[x][y] = r.nextDouble() < (1 / (WORLD_TILE_WIDTH - 2)) ?
+                                        tiles[x][y] = r.nextDouble() < (1.0 / (WORLD_TILE_WIDTH - 2)) ?
                                                 new FloorTile(new Position(x, y), "Floor1.png") :
                                                 new WallTile(new Position(x, y), "Wal11.png");
                                     }
                                 } else {        // randomly assign a gap with E(# gaps) = 1 per row
-                                    tiles[x][y] = r.nextDouble() < (1 / (WORLD_TILE_WIDTH - 2)) ?
+                                    tiles[x][y] = r.nextDouble() < (1.0 / (WORLD_TILE_WIDTH - 2)) ?
                                             new FloorTile(new Position(x, y), "Floor1.png") :
                                             new WallTile(new Position(x, y), "Wal11.png");
                                 }
                             }
                             break;
 
-                            default:
-                                tiles[x][y] = new FloorTile(new Position(x, y), "Floor1.png");
-                                break;
+                        default:
+                            tiles[x][y] = new FloorTile(new Position(x, y), "Floor1.png");
+                            break;
                     }
                 }
             }

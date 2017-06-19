@@ -65,9 +65,7 @@ public class TestView extends Application {
         gridWorld.generateWorld(TilePattern.RANDOM_SPARSE);
         gridWorld.addAgent(new DoveAgent(gridWorld.getWalkableTile(), "Adam"));
 
-        System.out.println(gridWorld.WORLD_TILE_WIDTH);
-
-        System.out.println(gridWorld.printString());
+        //System.out.println(gridWorld.WORLD_TILE_WIDTH);
 
         //Controller controller = new Controller();
         //controller.addModel(gridWorld);
