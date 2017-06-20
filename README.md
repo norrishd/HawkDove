@@ -59,7 +59,7 @@ breadth-first search to "look around" for food. If nothing nearby, will choose a
 5. Agents die if their food level drops to 0
 
 ## Features to be implemented
-* Figure out bug in findNextGoal() causing null pointer exception
+* Add Prim's type search to update shortest route to a goal if get distracted by other food and led off path
 * new game button
 * goal food gets highlighted
 * Agents can play games

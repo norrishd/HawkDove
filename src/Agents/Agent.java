@@ -135,9 +135,13 @@ public abstract class Agent {
     }
 
     // Helper function to take a SearchNode and finds the next Tile in the path
-    // TODO there's some bug here where can get null pointer exceptions
+    // TODO If agent strays off path to eat incidental adjacent food, can get null pointer exception here
+    // Must re-calculate route to goal food
     private Position findNextTilePos(SearchNode node) {
         while (Math.abs(position.x - node.tile.position.x) + Math.abs(position.y - node.tile.position.y) != 1) {
+            System.out.println("Node: " + node.tile.position.getCoords());
+            System.out.print("Parent: " );
+            System.out.println(node.parent != null ? "" + node.parent.tile.position.getCoords() : "none");
             node = node.parent;
         }
 
@@ -155,16 +159,17 @@ public abstract class Agent {
                 this.lose_food(1);
                 System.out.println("Food remaining for " + this.getClass() + ": " + food);
             }
-
-            // if at goal, can forget it
-            if (goal != null && goal.tile.position.equals(position))
-                goal = null;
         }
+        // if goal's food is gone (whether or not this agent took it), can forget goal
+        if (goal != null && !goal.tile.hasFood())
+                goal = null;
     }
 
     // If finding food uncontested or gaining some from a game
     public void gain_food(int v) {
+
         this.food += v;
+        System.out.println(getClass() + ": Om nom nom at " + position.getCoords());
     }
 
     // Lose food either from walking, spawning or losing a game when playing Hawk
