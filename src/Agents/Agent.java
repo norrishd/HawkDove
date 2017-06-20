@@ -22,7 +22,7 @@ public abstract class Agent {
     private int steps_taken;            // way to keep track how long an agent has survived
     private int children_spawned;
 
-    private SearchNode goal;              // identified food, currently aiming to collect
+    public SearchNode goal;              // identified food, currently aiming to collect
     private HashMap<Agent, ArrayList<Boolean>> pastEncounters;      // remember outcomes of past encounters with agents
     private Random r = new Random();
 
@@ -65,10 +65,11 @@ public abstract class Agent {
             next_pos = adjacentFood.get(choice);
             // if no adjacent food, check if there's still food at the goal and if so move towards it
         } else if (goal != null) {
-            if (goal.tile.hasFood())
+            if (goal.tile.hasFood()) {
+                System.out.println("Goal food still there, looking up parent");
                 next_pos = findNextTilePos(goal);
                 // If not, DL-BFS to try to find food
-            else {
+            } else {
                 goal = null;
                 DL_BFS(tiles, max_depth);
             }
@@ -89,6 +90,7 @@ public abstract class Agent {
             SearchNode node = queue.poll();
             if (node.tile.hasFood()) {
                 goal = node;
+                System.out.println("Found goal food in BFS, looking up parents");
                 next_pos = findNextTilePos(goal);
                 goalFound = true;
             } else {

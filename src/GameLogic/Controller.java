@@ -23,5 +23,6 @@ public class Controller {
         gridWorld.growFood();
         view.drawAgents(gridWorld.agents, gridWorld.TILE_SIZE, gridWorld.OFFSET);
         view.drawFood(gridWorld.tiles, gridWorld.TILE_SIZE, gridWorld.OFFSET);
+        view.highlightGoalFood(gridWorld.agents, gridWorld.TILE_SIZE, gridWorld.OFFSET);
     }
 }

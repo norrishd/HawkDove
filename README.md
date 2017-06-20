@@ -59,9 +59,12 @@ breadth-first search to "look around" for food. If nothing nearby, will choose a
 5. Agents die if their food level drops to 0
 
 ## Features to be implemented
+* Figure out bug in findNextGoal() causing null pointer exception
+* new game button
+* goal food gets highlighted
+* Agents can play games
 * Agents can spawn children
 * Keyboard controls
-* Agents can play games
 * User can click agent and panel will diplay information
 * User can control an agent
 * User can adjust:

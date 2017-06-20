@@ -29,6 +29,7 @@ public class View extends Application {
     private final Group root = new Group();
     private final Group tiles = new Group();
     private final Group food = new Group();
+    private final Group highlightedFood = new Group();
     private final Group agents = new Group();
 
     /**
@@ -62,6 +63,19 @@ public class View extends Application {
                     food.getChildren().add(new Circle(x * tileSize + offset + tileSize / 2,
                             y * tileSize + offset + tileSize / 2, tileSize / 6, Color.DARKRED));
                 }
+            }
+        }
+    }
+
+    public void highlightGoalFood(ArrayList<Agent> currentAgents, int tileSize, int offset) {
+
+        highlightedFood.getChildren().clear();
+
+        for (Agent agent : currentAgents) {
+            if (agent.goal != null) {
+                Position goalFood = agent.goal.tile.position;
+                highlightedFood.getChildren().add(new Circle(goalFood.x * tileSize + offset + tileSize / 2,
+                        goalFood.y * tileSize + offset + tileSize / 2, tileSize / 6, Color.GOLD));
             }
         }
     }
@@ -128,6 +142,7 @@ public class View extends Application {
 
         root.getChildren().add(tiles);
         root.getChildren().add(food);
+        root.getChildren().add(highlightedFood);
         root.getChildren().add(agents);
 
         primaryStage.setScene(scene);
